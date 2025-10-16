@@ -117,10 +117,6 @@ func (r *Repository) GetEventsForDay(ctx context.Context, userID uuid.UUID, date
 		events = append(events, e)
 	}
 
-	if len(events) == 0 {
-		return nil, ErrEventNotFound
-	}
-
 	return events, nil
 }
 
@@ -151,10 +147,6 @@ func (r *Repository) GetEventsForWeek(ctx context.Context, userID uuid.UUID, dat
 		events = append(events, e)
 	}
 
-	if len(events) == 0 {
-		return nil, ErrEventNotFound
-	}
-
 	return events, nil
 }
 
@@ -183,10 +175,6 @@ func (r *Repository) GetEventsForMonth(ctx context.Context, userID uuid.UUID, da
 		}
 
 		events = append(events, e)
-	}
-
-	if len(events) == 0 {
-		return nil, ErrEventNotFound
 	}
 
 	return events, nil

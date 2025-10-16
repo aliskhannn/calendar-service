@@ -2,7 +2,6 @@ package event
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"net/http"
 	"time"
@@ -13,7 +12,6 @@ import (
 	"github.com/aliskhannn/calendar-service/internal/api/response"
 	"github.com/aliskhannn/calendar-service/internal/middlewares"
 	"github.com/aliskhannn/calendar-service/internal/model"
-	eventrepo "github.com/aliskhannn/calendar-service/internal/repository/event"
 )
 
 func (h *Handler) GetDay(w http.ResponseWriter, r *http.Request) {
@@ -53,11 +51,6 @@ func (h *Handler) getEvents(w http.ResponseWriter, r *http.Request, fetch func(c
 
 	events, err := fetch(r.Context(), userID, eventDate)
 	if err != nil {
-		if errors.Is(err, eventrepo.ErrEventNotFound) {
-			h.logger.Info("events not found", zap.String("userID", userID.String()), zap.Time("date", eventDate))
-			response.Fail(w, http.StatusNotFound, fmt.Errorf("events not found"))
-			return
-		}
 		h.logger.Error("failed to fetch events", zap.Error(err))
 		response.Fail(w, http.StatusInternalServerError, fmt.Errorf("internal server error"))
 		return
